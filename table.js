@@ -1,5 +1,6 @@
 import tablemark from "tablemark" ;
 import authors_h_index from "./authors_with_h_index.json" assert {type: 'json'};
+import  fs from 'fs';
 
 const authors_json = [];
 
@@ -46,4 +47,9 @@ res.map((author) =>
 })
 
 
-console.log(tablemark(final_res,{ wrapWidth: 20 }));
+const table = tablemark(final_res,{ wrapWidth: 20 });
+  
+fs.writeFile('table.txt', table, (err) => {
+    if (err) throw err;
+})
+
