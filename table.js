@@ -33,8 +33,10 @@ sorted.map((author) =>
 })
 
 const final_res = [];
+let sum = 0 ; 
 res.map((author) => 
 {
+  sum += parseInt(author.h_index) ; 
   let author_h =
   {
     "rank" : `${parseInt(author.rank)+1}`,
@@ -46,8 +48,10 @@ res.map((author) =>
   final_res.push(author_h)
 })
 
+const average = sum/res.length ; 
 
-const table = tablemark(final_res,{ wrapWidth: 20 });
+console.log(average);
+const table = tablemark(final_res,{ wrapWidth: 25 ,wrapWithGutters: true});
   
 fs.writeFile('table.txt', table, (err) => {
     if (err) throw err;
