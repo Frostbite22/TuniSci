@@ -1,6 +1,8 @@
 # TuniSci: Ranking of scholars at Tunisian universities based on h-index and i10-index
 By ***Mohamed Fares Landoulsi*** (University of Tunis El Manar, Tunisia)
 
+**The Ranking is live at https://Frostbite22.github.io/TuniSci/ranking.html.**
+
 Scientists always need to locate their position in the research landscape of their community so that they can assess their career and envision future directions for their work by seeing what their peers are doing. Tunisian scientists are not an exception to this rule. In this context, several bibliometric studies have been conducted to identify the main local scientists and trends in various research fields in Tunisia, particularly Chemistry [1], Infectious Diseases [2], Community Health [3], General Surgery [4], and so on. When robust measures allowing the quantitative and qualitative assessment of scientists, mainly h-index, have appeared since 2005 [5], a new trend of using such metrics to rank scientists has appeared allowing the generation of various rankings for scientists by discipline and country, especially in the developed nations [6]. 
 
 
