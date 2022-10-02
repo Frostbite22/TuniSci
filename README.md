@@ -20,8 +20,8 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 Finally, it is noteworthy to mention that I have made the project open-source for more transparency and I will be honoured to receive more support for interested people to expand the ranking. There are currently many directions for enhancing the TuniSci Ranking such as its customization per field, its adaptation to support expatriate scientists born in Tunisia, and the efficient elimination of fake and manipulated profiles.
 
 ## Dependencies
-* **Python:** *Google.Colab*, *json*, *os*, *datetime*, *scholarly*, *parsel*, *requests*, and *re*. 
-* **JavaScript:** *[sort-table](https://www.cssscript.com/html-table-sortable/)*
+* **Python:** *[Google.Colab](https://pypi.org/project/google-colab/)*, *[json](https://docs.python.org/fr/3/library/json.html)*, *[os](https://docs.python.org/fr/3/library/os.html)*, *[datetime](https://pypi.org/project/DateTime/)*, *[scholarly](https://pypi.org/project/scholarly/)*, *[parsel](https://pypi.org/project/parsel/)*, *[requests](https://pypi.org/project/requests/)*, and *[re](https://docs.python.org/fr/3/library/re.html)*. 
+* **JavaScript:** *[sort-table](https://www.cssscript.com/html-table-sortable/)*.
 
 ## Acknowledgements
 I thank Houcemeddine Turki (Data Engineering and Semantics Research Unit, University of Sfax, Tunisia) for useful discussion and editing.
