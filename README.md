@@ -9,13 +9,13 @@ Scientists always need to locate their position in the research landscape of the
 * Ranking scientists by numbers from first to last is quite humiliating for scientists at the least positions and can be a source for disencouraging scientists rather than encouraging them to progress in their careers.
 * Curating rankings by hand is a long task that requires long-term engagement.
 
-Here, I propose TuniSci as a new ranking that automatically create a ranking of local Tunisian scientists by scraping their public Google Scholar profiles. Such a ranking will solve problems related to the sustainability of the classification. To tackle social problems related to previous h-index rankings, I provide four measures that assess different aspects of scientific achievements for every considered scientist:
-* **h-index:** 
-* **i10-index:** The number of publications that have been each cited ten times or more.
+Here, I propose TuniSci as a new ranking that automatically create a ranking of local Tunisian scientists by scraping their public Google Scholar profiles. This project's intent is to refect the real impact and contribution of Tunisian universities on research in general and on the qualities of higher education in Tunisia. Such a ranking will solve problems related to the sustainability of the classification. To tackle social problems related to previous h-index rankings, I will provide four measures that assess different aspects of scientific achievements for every considered scientist:
+* **h-index:** The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar [5]. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities [5]. 
+* **i10-index:** The number of publications that have been each cited ten times or more. i
 * **5-year h-index:** 
 * **5-year i10-index:** The number of publications that have been each cited ten times or more for the last five years.
 
-To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column.
+To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column. Just for reference, Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional [5]. But, if you work on a research field with limited citation impact and important publishing delays, even a smaller number can be excellent.
 
 
 
@@ -34,16 +34,8 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 12. Kelly, C. D., & Jennions, M. D. (2006). The h index and career assessment by numbers. *Trends in Ecology & Evolution*, 21(4), 167-170.
 
 
-The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities.
-
-## metrics 
-What is a Good h-Index? Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional.
-
 ## Scope 
 This project is build by scraping the google scholars for Tunisian university. It contains 2130 scholars from different univerities, with different research fields and interests.
-
-## Objective 
-This project's intent is to refect the real impact and contribution of Tunisian universities on research in general and on the qualities of higher education in Tunisia.
 
 ## Significatant statistics 
 Average h-index : 8.1
