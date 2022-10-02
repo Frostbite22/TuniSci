@@ -1,0 +1,39 @@
+body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+
+/* tables */
+table.js-sort-table {
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	width: 750;
+	text-align: left;
+}
+table.js-sort-table thead tr th, table.js-sort-table tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	padding: 4px;
+}
+table.js-sort-table thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.js-sort-table tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+        text-align: right;
+}
+table.js-sort-table tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.js-sort-table thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+table.js-sort-table thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
+table.js-sort-table thead tr .headerSortDown, table.js-sort-table thead tr .headerSortUp {
+background-color: #8dbdd8;
+}
