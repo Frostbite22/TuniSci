@@ -10,9 +10,9 @@ Scientists always need to locate their position in the research landscape of the
 * Curating rankings by hand is a long task that requires long-term engagement.
 
 Here, I propose TuniSci as a new ranking that automatically create a ranking of local Tunisian scientists by scraping their public Google Scholar profiles. This project's intent is to refect the real impact and contribution of Tunisian universities on research in general and on the qualities of higher education in Tunisia. Such a ranking will solve problems related to the sustainability of the classification. To tackle social problems related to previous h-index rankings, I will provide four measures that assess different aspects of scientific achievements for every considered scientist:
-* **h-index:** The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar [5]. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities [5]. 
-* **i10-index:** The number of publications that have been each cited ten times or more. i
-* **5-year h-index:** 
+* **h-index:** The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar [5]. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities [5]. This metric is defined as *h* where *h* of the publications have each received *h* citations or more and where the remaining publications have received *h* citations or less. 
+* **i10-index:** The number of publications that have been each cited ten times or more. i10-index is highly correlated with h-index [13]. Consequently, scientists with higher i10-index are more likely to increase their h-index soon.
+* **5-year h-index:** This metric is defined as *h* where *h* of the publications have each received *h* citations for the last five years or more and where the remaining publications have received *h* citations or less for the last five years. Thanks to its five-year window for citations, this measure favors young and active scientists at the expense of retired and inactive ones.
 * **5-year i10-index:** The number of publications that have been each cited ten times or more for the last five years.
 
 To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column. Just for reference, Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional [5]. But, if you work on a research field with limited citation impact and important publishing delays, even a smaller number can be excellent.
@@ -32,6 +32,8 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 10. Turki, H. (2017). *TunSci: Semi-automated Google Scholar based h-index ranking for Tunisian scientists*. Webometrics.info.
 11. Alonso, S., Cabrerizo, F. J., Herrera-Viedma, E., & Herrera, F. (2009). h-Index: A review focused in its variants, computation and standardization for different scientific fields. *Journal of informetrics*, 3(4), 273-289.
 12. Kelly, C. D., & Jennions, M. D. (2006). The h index and career assessment by numbers. *Trends in Ecology & Evolution*, 21(4), 167-170.
+13. McCoy, A. B., Sittig, D. F., Lin, J., & Wright, A. (2019). Identification and ranking of biomedical informatics researcher citation statistics through a Google Scholar scraper. In *AMIA Annual Symposium Proceedings* (Vol. 2019, p. 655). American Medical Informatics Association.
+14. Pan, R. K., & Fortunato, S. (2014). Author Impact Factor: tracking the dynamics of individual scientific impact. *Scientific reports*, 4(1), 1-7.
 
 
 ## Scope 
