@@ -15,9 +15,7 @@ Here, I propose TuniSci as a new ranking that automatically create a ranking of 
 * **5-year h-index:** This metric is defined as *h* where *h* of the publications have each received *h* citations for the last five years or more and where the remaining publications have received *h* citations or less for the last five years. Thanks to its five-year window for citations, this measure favors young and active scientists at the expense of retired and inactive ones.
 * **5-year i10-index:** The number of publications that have been each cited ten times or more for the last five years. This metric can be an indicator of a close increase of i10-index as well as 5-year i10-index.
 
-To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column. Just for reference, Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional [5]. But, if you work on a research field with limited citation impact and important publishing delays, even a smaller number can be excellent. As of 2022, a threshold of 8 is acceptable for a confirmed scientist. However, this should increase by one point every year.
-
-
+To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column. Just for reference, Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional [5]. But, if you work on a research field with limited citation impact and important publishing delays, even a smaller number can be excellent. As of 2022, a threshold of 8 is acceptable for a confirmed scientist. However, this should increase by one point every year. I also decided every single scientist from Tunisia having a public Google Scholar profile as I believe that every career that is growing and surviving in our ecosystem is worth considering and studying. The project currently supports over 2000 scholars from different univerities, with different research fields and interests. I look forward to including more scientists as they create their own profiles for visibility.
 
 ## References
 1. Hammouti, B. (2010). Comparative bibliometric study of the scientific production in Maghreb countries (Algeria, Morocco and Tunisia) in 1996-2009 using Scopus. *Journal of Materials & Environmental Science*, 1(2), 70-77.
@@ -35,14 +33,4 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 13. McCoy, A. B., Sittig, D. F., Lin, J., & Wright, A. (2019). Identification and ranking of biomedical informatics researcher citation statistics through a Google Scholar scraper. In *AMIA Annual Symposium Proceedings* (Vol. 2019, p. 655). American Medical Informatics Association.
 14. Pan, R. K., & Fortunato, S. (2014). Author Impact Factor: tracking the dynamics of individual scientific impact. *Scientific reports*, 4(1), 1-7.
 
-
-## Scope 
-This project is build by scraping the google scholars for Tunisian university. It contains 2130 scholars from different univerities, with different research fields and interests.
-
-## Significatant statistics 
-Average h-index : 
-
-## Things to be done in this project ( contributions are welcomed )
-#### Average h-index by research field ( most successful fields )
-#### standard deviation from all authors ( we have many with zero publications ) 
 #### number of scholars working on each field 
