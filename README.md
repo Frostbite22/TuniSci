@@ -1,5 +1,6 @@
 # TuniSci: Ranking of scholars at Tunisian universities based on h-index and i10-index
-By ***Mohamed Fares Landoulsi***
+By ***Mohamed Fares Landoulsi*** (University of Tunis El Manar, Tunisia)
+
 The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities.
 
 ## metrics 
