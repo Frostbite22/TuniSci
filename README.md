@@ -17,6 +17,8 @@ Here, I propose TuniSci as a new ranking that automatically create a ranking of 
 
 To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column. Just for reference, Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional [5]. But, if you work on a research field with limited citation impact and important publishing delays, even a smaller number can be excellent. As of 2022, a threshold of 8 is acceptable for a confirmed scientist. However, this should increase by one point every year. I also decided every single scientist from Tunisia having a public Google Scholar profile as I believe that every career that is growing and surviving in our ecosystem is worth considering and studying. The project currently supports over 2000 scholars from different univerities, with different research fields and interests. I look forward to including more scientists as they create their own profiles for visibility.
 
+Finally, it is noteworthy to mention that I have made the project open-source for more transparency and I will be honoured to receive more support for interested people to expand the ranking. There are currently many directions for enhancing the TuniSci Ranking such as its customization per field and its adaptation to support expatriate scientists born in Tunisia.
+
 ## References
 1. Hammouti, B. (2010). Comparative bibliometric study of the scientific production in Maghreb countries (Algeria, Morocco and Tunisia) in 1996-2009 using Scopus. *Journal of Materials & Environmental Science*, 1(2), 70-77.
 2. Rouis, S., Melki, S., Rouis, H., & Nouira, S. (2019). Disciplinary and thematic mapping of Maghreb publications in" infectiology". Bibliometric study (Tunisia, 2010-2014). *La Tunisie medicale*, 97(8-9), 931-944.
@@ -32,5 +34,3 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 12. Kelly, C. D., & Jennions, M. D. (2006). The h index and career assessment by numbers. *Trends in Ecology & Evolution*, 21(4), 167-170.
 13. McCoy, A. B., Sittig, D. F., Lin, J., & Wright, A. (2019). Identification and ranking of biomedical informatics researcher citation statistics through a Google Scholar scraper. In *AMIA Annual Symposium Proceedings* (Vol. 2019, p. 655). American Medical Informatics Association.
 14. Pan, R. K., & Fortunato, S. (2014). Author Impact Factor: tracking the dynamics of individual scientific impact. *Scientific reports*, 4(1), 1-7.
-
-#### number of scholars working on each field 
