@@ -1,6 +1,18 @@
 # TuniSci: Ranking of scholars at Tunisian universities based on h-index and i10-index
 By ***Mohamed Fares Landoulsi*** (University of Tunis El Manar, Tunisia)
 
+Scientists always need to locate their position in the research landscape of their community so that they can assess their career and envision future directions for their work by seeing what their peers are doing. Tunisian scientists are not an exception to this rule. In this context, several bibliometric studies have been conducted to identify the main local scientists and trends in various research fields in Tunisia, particularly Chemistry [1], Infectious Diseases [2], Community Health [3], General Surgery [4], and so on. When robust measures allowing the quantitative and qualitative assessment of scientists, mainly h-index, have appeared since 2005 [5], a new trend of using such metrics to rank scientists has appeared 
+
+
+## References
+1. Hammouti, B. (2010). Comparative bibliometric study of the scientific production in Maghreb countries (Algeria, Morocco and Tunisia) in 1996-2009 using Scopus. *Journal of Materials & Environmental Science*, 1(2), 70-77.
+2. Rouis, S., Melki, S., Rouis, H., & Nouira, S. (2019). Disciplinary and thematic mapping of Maghreb publications in" infectiology". Bibliometric study (Tunisia, 2010-2014). *La Tunisie medicale*, 97(8-9), 931-944.
+3. Alaya, B. (2018). Bibliometrics of Tunisian publications in preventive and community medicine, indexed in the Medline database (1975-2014). *La Tunisie Medicale*, 96(10-11), 719-730.
+4. Azzaza, M., Melki, S., Nouira, S., & Khelil, M. (2019). Bibliometrics of Tunisian publications in" General Surgery"(Medline, 2009-2018). *La Tunisie medicale*, 97(7), 833-841.
+5. Hirsch, J. E. (2005). An index to quantify an individual's scientific research output. *Proceedings of the National academy of Sciences*, 102(46), 16569-16572.7
+6. Cronin, B., & Meho, L. (2006). Using the h‐index to rank influential information scientists. *Journal of the American Society for Information Science and technology*, 57(9), 1275-1278.
+
+
 The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities.
 
 ## metrics 
