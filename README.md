@@ -8,11 +8,13 @@ Scientists always need to locate their position in the research landscape of the
 * Older scientists are more likely to achieve higher h-index than younger ones [12].
 * Ranking scientists by numbers from first to last is quite humiliating for scientists at the least positions and can be a source for disencouraging scientists rather than encouraging them to progress in their careers.
 * Curating rankings by hand is a long task that requires long-term engagement.
+
 Here, I propose TuniSci as a new ranking that automatically create a ranking of local Tunisian scientists by scraping their public Google Scholar profiles. Such a ranking will solve problems related to the sustainability of the classification. To tackle social problems related to previous h-index rankings, I provide four measures that assess different aspects of scientific achievements for every considered scientist:
 * **h-index:** 
 * **i10-index:**
 * **5-year h-index:**
 * **5-year i10-index:**
+*
 To prevent any mistaken interpretation of the ranking, I decided to eliminate putting ranks for every scientist. Scientists are initally visualized in a random way. Any user can sort the scientists based on a metric by clicking on the header cell of the corresponding column.
 
 
