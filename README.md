@@ -19,6 +19,11 @@ To prevent any mistaken interpretation of the ranking, I decided to eliminate pu
 
 Finally, it is noteworthy to mention that I have made the project open-source for more transparency and I will be honoured to receive more support for interested people to expand the ranking. There are currently many directions for enhancing the TuniSci Ranking such as its customization per field, its adaptation to support expatriate scientists born in Tunisia, and the efficient elimination of fake and manipulated profiles.
 
+## Dependencies
+
+## Acknowledgements
+I thank Houcemeddine Turki (Data Engineering and Semantics Research Unit, University of Sfax, Tunisia) for useful discussion and editing.
+
 ## References
 1. Hammouti, B. (2010). Comparative bibliometric study of the scientific production in Maghreb countries (Algeria, Morocco and Tunisia) in 1996-2009 using Scopus. *Journal of Materials & Environmental Science*, 1(2), 70-77.
 2. Rouis, S., Melki, S., Rouis, H., & Nouira, S. (2019). Disciplinary and thematic mapping of Maghreb publications in" infectiology". Bibliometric study (Tunisia, 2010-2014). *La Tunisie medicale*, 97(8-9), 931-944.
