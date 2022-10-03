@@ -1,4 +1,4 @@
-# RANKING of Scholars at Tunisian Universities based on h-index
+# RANKING of top 1000 Scholars at Tunisian Universities based on h-index
 
 The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities.
 
@@ -12,7 +12,7 @@ This project is build by scraping the google scholars for Tunisian university. I
 This project's intent is to refect the real impact and contribution of Tunisian universities on research in general and on the qualities of higher education in Tunisia.
 
 ## Significatant statistics 
-Average h-index : 8.1
+Average h-index : 8.2
 
 ## Things to be done in this project ( contributions are welcomed )
 #### Average h-index by research field ( most successful fields )
