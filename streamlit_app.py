@@ -9,11 +9,11 @@ with open("authors_with_h_index_2.json", "r") as file:
 # Process data
 authors_json = [
     {
-        "profile_name": author["profile_name"],
-        "profile_affiliations": author["profile_affiliations"],
-        "profile_interests": author["profile_interests"],
-        "hindex": author["hindex"],
-        "i10index": author["i10index"]
+        "profile_name": author.get("profile_name", "N/A"),
+        "profile_affiliations": author.get("profile_affiliations", "N/A"),
+        "profile_interests": author.get("profile_interests", "N/A"),
+        "hindex": author.get("hindex", 0),
+        "i10index": author.get("i10index", 0)
     }
     for author in authors_h_index
 ]
