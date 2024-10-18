@@ -14,7 +14,21 @@ This project's intent is to refect the real impact and contribution of Tunisian 
 ## Significatant statistics 
 Average h-index : 8.2
 
-## Things to be done in this project ( contributions are welcomed )
+## Running the Streamlit App
+
+To run the Streamlit app, follow these steps:
+
+1. Install the required libraries:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Run the Streamlit app:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+
+## Things to be done in this project (contributions are welcomed)
 #### Average h-index by research field ( most successful fields )
 #### standard deviation from all authors ( we have many with zero publications ) 
 #### number of scholars working on each field 
