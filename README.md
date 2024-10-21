@@ -1,6 +1,6 @@
-# RANKING of top 1000 Scholars at Tunisian Universities based on h-index
+# Deployment Instructions for Streamlit App
 
-The h-index is an author-level metric that measures both the productivity and citation impact of the publications, initially used for an individual scientist or scholar. The h-index correlates with obvious success indicators such as winning the Nobel Prize, being accepted for research fellowships and holding positions at top universities.
+To deploy the Streamlit app to Streamlit, follow these steps:
 
 ## metrics 
 What is a Good h-Index? Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional.
@@ -27,6 +27,11 @@ To run the Streamlit app, follow these steps:
    ```bash
    streamlit run streamlit_app.py
    ```
+
+## Deployment
+
+The project is deployed and accessible at [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
+
 
 ## Things to be done in this project (contributions are welcomed)
 #### Average h-index by research field ( most successful fields )
