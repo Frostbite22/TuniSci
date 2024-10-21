@@ -1,0 +1,5 @@
+6. Run `streamlit config show` to view your app's configuration.
+7. Run `streamlit run app.py` to start the app locally.
+8. To deploy the app to Streamlit, run `streamlit deploy app.py`.
+
+Note: Make sure to update the `authors_with_h_index_2.json` file path in `streamlit_app.py` if it's different from the current directory.
