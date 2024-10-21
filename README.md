@@ -38,5 +38,9 @@ The project is deployed and accessible at [https://tunisci.streamlit.app/](https
 #### standard deviation from all authors ( we have many with zero publications ) 
 #### number of scholars working on each field 
 
+## Deployment
+
+The project is deployed and accessible at [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
+
 
 [Here](scholars_ranking.md) is the link to the top 100 scholars ranking file.
