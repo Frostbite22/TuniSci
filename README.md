@@ -28,10 +28,6 @@ To run the Streamlit app, follow these steps:
    streamlit run streamlit_app.py
    ```
 
-## Deployment
-
-The project is deployed and accessible at [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
-
 ## Things to be done in this project (contributions are welcomed)
 #### Average h-index by research field ( most successful fields )
 #### standard deviation from all authors ( we have many with zero publications ) 
