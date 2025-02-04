@@ -1,5 +1,7 @@
 node_modules
 data
-authors_with_h_index.json
 table.txt
 .aider*
+venv
+faiss_cohere_index
+faiss_index

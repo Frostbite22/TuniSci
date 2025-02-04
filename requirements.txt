@@ -1,1 +1,8 @@
 streamlit
+python-dotenv
+openai
+langchain-community 
+langchain-core
+langchain-openai
+jq
+azure-ai-inference
