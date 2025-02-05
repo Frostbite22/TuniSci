@@ -8,6 +8,11 @@ class ChatModel(enum.Enum):
     O1_MINI = "o1-mini"
     O1_PREVIEW = "o1-preview"
     O3_MINI = "o3-mini"
+    COHERE_COMMAND_R_PLUS_08_2024 = "Cohere-command-r-plus-08-2024"
+    COHERE_COMMAND_R_08_2024 = "Cohere-command-r-08-2024"
+    COHERE_COMMAND_R_PLUS = "Cohere-command-r-plus"
+
+
 
     def __str__(self):
         return self.value
