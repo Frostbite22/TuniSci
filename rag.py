@@ -95,13 +95,13 @@ class RAGFrontend:
     def __get_embeddings__(self,embedding_model:str):
         if embedding_model == "text-embedding-3-large" or embedding_model == "text-embedding-3-small":
             return self.__OpenAIEmbed__(embedding_model)
-        elif embedding_model == "Cohere-embed-v3-multilingual" or embedding_model == "Cohere-embed-v3-english" or embedding_model == "Cohere-command-r":
+        elif embedding_model == "Cohere-embed-v3-multilingual" or embedding_model == "Cohere-embed-v3-english":
             return self.__CohereEmbed__(embedding_model)
         else:
             return self.__AzureAIEmbed__(embedding_model)
             
     def __flattened_text_from_json__(self) -> str:
-        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" or self.embedding_model == "Cohere-embed-v3-multilingual" or self.embedding_model == "Cohere-embed-v3-english" or self.embedding_model == "Cohere-command-r":
+        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" or self.embedding_model == "Cohere-embed-v3-multilingual" or self.embedding_model == "Cohere-embed-v3-english" :
             flattened_text = json_to_flattened_text_openai(self.json_file_path)
         else : 
             flattened_text = json_to_flattened_text_azure_ai(self.json_file_path)
