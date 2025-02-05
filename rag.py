@@ -83,7 +83,7 @@ class RAGFrontend:
     
     def __CohereEmbed__(self,embedding_model):
         # Set up the embedding model to be used in the vector index
-        return CohereEmbeddings(base_url=ENDPOINT, cohere_api_key=os.environ["GITHUB_TOKEN"], model=embedding_model)
+        return CohereEmbeddings(base_url=ENDPOINT, cohere_api_key=os.getenv("GITHUB_TOKEN"), model=embedding_model)
 
 
     def __validate_embedding_model__(self,embedding_model:str):
