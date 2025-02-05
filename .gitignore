@@ -5,3 +5,4 @@ table.txt
 venv
 faiss_cohere_index
 faiss_index
+.env
