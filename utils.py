@@ -23,7 +23,34 @@ def save_cleaned_json(cleaned_data):
     with open("authors_with_h_index.json", "w", encoding="utf-8") as file:
         json.dump(cleaned_data, file, ensure_ascii=False, indent=4)
 
-def json_to_flattened_text(json_file_path):
+def json_to_flattened_text_azure_ai(json_file_path):
+    # Load the large JSON document
+    with open(json_file_path, "r", encoding="utf-8") as file:
+        authors = json.load(file)
+
+    # Convert the JSON to a formatted string for better chunking
+    def flatten_json(json_obj, indent=0):
+        """Flatten nested JSON into key-value pairs."""
+        out = {}
+
+        def recurse(t, parent_key=""):
+            if isinstance(t, dict):
+                for k, v in t.items():
+                    recurse(v, parent_key + k + ".")
+            elif isinstance(t, list):
+                for i, v in enumerate(t):
+                    recurse(v, parent_key + str(i) + ".")
+            else:
+                out[parent_key[:-1]] = t
+
+        recurse(json_obj)
+        return out
+    # Flatten and join the JSON as a string
+    flattened_text = [json.dumps(flatten_json(author)) for author in authors]
+
+    return flattened_text
+
+def json_to_flattened_text_openai(json_file_path):
     # Load the large JSON document
     with open(json_file_path, "r", encoding="utf-8") as file:
         large_json = json.load(file)
@@ -46,5 +73,5 @@ def json_to_flattened_text(json_file_path):
 
     # Flatten and join the JSON as a string
     flattened_text = "\n".join([item for author in large_json for item in flatten_json(author)])
-
     return flattened_text
+

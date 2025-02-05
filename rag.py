@@ -3,35 +3,52 @@
 from langchain_azure_ai.chat_models import AzureAIChatCompletionsModel
 import os 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import load_dotenv
+from dotenv import load_dotenv
 from langchain.embeddings.base import Embeddings
 from azure.ai.inference import EmbeddingsClient
 from azure.core.credentials import AzureKeyCredential
 from langchain.vectorstores import FAISS
-
+from langchain.chains import RetrievalQA
 from langchain_openai import OpenAIEmbeddings
-
 import CHAT_MODELS
 import EMBEDDING_MODELS
-from utils import json_to_flattened_text
-
+from utils import  json_to_flattened_text_azure_ai, json_to_flattened_text_openai
+from IPython.display import display, Markdown
 
 
 ENDPOINT = "https://models.inference.ai.azure.com"
 API_VERSION = "2024-05-01-preview"
 
 class AzureAIChat:
-    def __init__(self,model_name:str):
-        self.llm = AzureAIChatCompletionsModel(
-            endpoint=ENDPOINT,
-            token = load_dotenv("GITHUB_TOKEN"),
-            model_name=model_name,
-            api_version=API_VERSION
-        )
+    def __init__(self, chat_model: str):
+        load_dotenv()
+        self.CHAT_MODELS = CHAT_MODELS.ChatModel.get_all_models()
+        if self.__validate_chat_model__(chat_model):
+            self.llm = AzureAIChatCompletionsModel(
+                endpoint=ENDPOINT,
+                credential=os.getenv("GITHUB_TOKEN"),
+                api_version=API_VERSION,
+                model_name=chat_model
+            )
+        else:
+            raise ValueError(f"Chat model {chat_model} is not supported")
+    
+    def __validate_chat_model__(self, chat_model: str):
+        if chat_model in self.CHAT_MODELS:
+            return True
+        else:
+            return False
 
+    def __call__(self):
+        return self.llm
+    
 class CustomAzureEmbeddings(Embeddings):
     def __init__(self, model_name):
-        self.client = EmbeddingsClient(endpoint=ENDPOINT, credential=AzureKeyCredential(load_dotenv("GITHUB_TOKEN")))
+        load_dotenv()
+        self.client = EmbeddingsClient(
+            endpoint=ENDPOINT, 
+            credential=AzureKeyCredential(os.getenv("GITHUB_TOKEN"))
+        )
         self.model_name = model_name
         
     def embed_documents(self, texts):
@@ -53,29 +70,17 @@ class CustomAzureEmbeddings(Embeddings):
     
 
 class RAGFrontend:
-    def __init__(self,embedding_model:str,chat_model:str,json_file_path:str,query:str):
-        self.CHAT_MODELS = CHAT_MODELS.get_all_models()
-        self.EMBEDDING_MODELS = EMBEDDING_MODELS.get_all_models()
+    def __init__(self,embedding_model:str,json_file_path:str):
+        self.EMBEDDING_MODELS = EMBEDDING_MODELS.EmbeddingModel.get_all_models()
         self.embedding_model = embedding_model
-        self.chat_model = chat_model
         self.json_file_path = json_file_path
-        self.query = query
 
-    def __OpenAIEmbed__(self,model_name):
-        return OpenAIEmbeddings(model=model_name)
+    def __OpenAIEmbed__(self,embedding_model):
+        return OpenAIEmbeddings(model=embedding_model)
     
-    def __AzureAIEmbed__(self,model_name):
-        return CustomAzureEmbeddings(model_name)
-    
-    def __AzureAIChat__(self,model_name):
-        return AzureAIChat(model_name)
-    
-    def __validate_chat_model__(self,chat_model:str):
-        if chat_model in self.CHAT_MODELS:
-            return True
-        else:
-            return False
-    
+    def __AzureAIEmbed__(self,embedding_model):
+        return CustomAzureEmbeddings(embedding_model)
+
     def __validate_embedding_model__(self,embedding_model:str):
         if embedding_model in self.EMBEDDING_MODELS:
             return True
@@ -87,12 +92,13 @@ class RAGFrontend:
             return self.__OpenAIEmbed__(embedding_model)
         else:
             return self.__AzureAIEmbed__(embedding_model)
-        
-    def __get_chat_model__(self,chat_model:str):
-        return self.__AzureAIChat__(chat_model)
-    
+            
     def __flattened_text_from_json__(self) -> str:
-        flattened_text = json_to_flattened_text(self.json_file_path)
+        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small":
+            flattened_text = json_to_flattened_text_openai(self.json_file_path)
+        else : 
+            flattened_text = json_to_flattened_text_azure_ai(self.json_file_path)
+
         return flattened_text
     
     def create_vector_store(self):
@@ -136,5 +142,35 @@ class RAGFrontend:
                     metadatas=[{"source": str(i)} for i in range(len(flattened_text))]
                 )
                 return vectorstore
-    
-    
+
+## usage
+
+### Creating the embeddings,  vector store and saving the FAISS index
+# rag = RAGFrontend(embedding_model="text-embedding-3-large",json_file_path="authors_with_h_index.json")  
+# vectorstore = rag.create_vector_store()
+# # Save the FAISS index
+# vectorstore.save_local("faiss_index")
+
+# print("FAISS index saved successfully")
+
+### Intference using the RAG model
+# get the embedding model
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+
+vectorstore = FAISS.load_local(
+    "faiss_index", 
+    embeddings=embedding_model,
+    allow_dangerous_deserialization=True
+)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+# get the chat model
+chat_model = AzureAIChat(chat_model="gpt-4o")
+# Create a QA chain using the retriever
+qa_chain = RetrievalQA.from_chain_type(llm=chat_model(), retriever=retriever)
+
+query = "Who is the Tunisian researcher that have the highest h-index in artificial intelligence?"
+
+response = qa_chain.invoke(query)
+print(response["query"])
+display(response["result"])
+
