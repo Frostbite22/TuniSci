@@ -3,7 +3,7 @@ import pandas as pd
 import json
 
 # Load authors data
-with open("authors_with_h_index_2.json", "r") as file:
+with open("authors_with_h_index.json", "r") as file:
     authors_h_index = json.load(file)
 
 # Process data

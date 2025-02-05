@@ -6,3 +6,4 @@ venv
 faiss_cohere_index
 faiss_index
 .env
+cohere_faiss_index

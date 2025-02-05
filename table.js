@@ -1,5 +1,5 @@
 import tablemark from "tablemark" ;
-import authors_h_index from "./authors_with_h_index_2.json" assert {type: 'json'};
+import authors_h_index from "./authors_with_h_index.json" assert {type: 'json'};
 import  fs from 'fs';
 
 const authors_json = [];

@@ -45,11 +45,20 @@ class AzureAIChat:
 class CustomAzureEmbeddings(Embeddings):
     def __init__(self, model_name):
         load_dotenv()
-        self.client = EmbeddingsClient(
-            endpoint=ENDPOINT, 
-            credential=AzureKeyCredential(os.getenv("GITHUB_TOKEN"))
-        )
-        self.model_name = model_name
+        if not self.__validate_model__(model_name):
+            raise ValueError(f"Model {model_name} is not supported")
+        else:
+            self.client = EmbeddingsClient(
+                endpoint=ENDPOINT, 
+                credential=AzureKeyCredential(os.getenv("GITHUB_TOKEN"))
+            )
+            self.model_name = model_name
+
+    def __validate_model__(self, model_name):
+        if model_name in EMBEDDING_MODELS.EmbeddingModel.get_all_models():
+            return True
+        else:
+            return False
         
     def embed_documents(self, texts):
         # Handle batch size limit of 96
@@ -81,10 +90,6 @@ class RAGFrontend:
     def __AzureAIEmbed__(self,embedding_model):
         return CustomAzureEmbeddings(embedding_model)
     
-    def __CohereEmbed__(self,embedding_model):
-        # Set up the embedding model to be used in the vector index
-        return CohereEmbeddings(base_url=ENDPOINT, cohere_api_key=os.getenv("GITHUB_TOKEN"), model=embedding_model)
-
 
     def __validate_embedding_model__(self,embedding_model:str):
         if embedding_model in self.EMBEDDING_MODELS:
@@ -95,13 +100,13 @@ class RAGFrontend:
     def __get_embeddings__(self,embedding_model:str):
         if embedding_model == "text-embedding-3-large" or embedding_model == "text-embedding-3-small":
             return self.__OpenAIEmbed__(embedding_model)
-        elif embedding_model == "Cohere-embed-v3-multilingual" or embedding_model == "Cohere-embed-v3-english":
-            return self.__CohereEmbed__(embedding_model)
+        # elif embedding_model == "Cohere-embed-v3-multilingual" or embedding_model == "Cohere-embed-v3-english":
+        #     return self.__CohereEmbed__(embedding_model)
         else:
             return self.__AzureAIEmbed__(embedding_model)
             
     def __flattened_text_from_json__(self) -> str:
-        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" or self.embedding_model == "Cohere-embed-v3-multilingual" or self.embedding_model == "Cohere-embed-v3-english" :
+        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" :
             flattened_text = json_to_flattened_text_openai(self.json_file_path)
         else : 
             flattened_text = json_to_flattened_text_azure_ai(self.json_file_path)
@@ -136,7 +141,7 @@ class RAGFrontend:
         if self.__validate_embedding_model__(self.embedding_model):
             embeddings = self.__get_embeddings__(self.embedding_model)
             flattened_text = self.__flattened_text_from_json__()
-            if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" or self.embedding_model == "Cohere-embed-v3-multilingual" or self.embedding_model == "Cohere-embed-v3-english":
+            if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" :
                 text_splitter = RecursiveCharacterTextSplitter(chunk_size=190, chunk_overlap=20)
                 chunks = text_splitter.split_text(flattened_text)
                 vectorstore = FAISS.from_texts(chunks, embeddings)
@@ -150,37 +155,4 @@ class RAGFrontend:
                 )
                 return vectorstore
 
-## usage
-
-### Creating the embeddings,  vector store and saving the FAISS index
-rag = RAGFrontend(embedding_model="Cohere-embed-v3-english",json_file_path="authors_with_h_index.json")  
-vectorstore = rag.create_vector_store()
-# Save the FAISS index
-vectorstore.save_local("cohere_faiss_index")
-
-print("FAISS index saved successfully")
-
-### Intference using the RAG model
-# get the embedding model
-# embedding_model = CustomAzureEmbeddings("Cohere-embed-v3-multilingual")
-embedding_model = OpenAIEmbeddings(model="Cohere-embed-v3-english")
-# embedding_model = CohereEmbeddings(base_url=ENDPOINT, cohere_api_key=os.getenv("GITHUB_TOKEN"), model="Cohere-embed-v3-english")
-
-# Load the FAISS index
-vectorstore = FAISS.load_local(
-    "cohere_faiss_index", 
-    embeddings=embedding_model,
-    allow_dangerous_deserialization=True
-)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
-# get the chat model
-chat_model = AzureAIChat(chat_model="Cohere-command-r-plus-08-2024")
-# Create a QA chain using the retriever
-qa_chain = RetrievalQA.from_chain_type(llm=chat_model(), retriever=retriever)
-
-query = "Do you know Najet Arous ?"
-
-response = qa_chain.invoke(query)
-print(response["query"])
-display(response["result"])
 
