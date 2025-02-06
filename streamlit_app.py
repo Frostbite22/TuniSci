@@ -55,10 +55,10 @@ def load_authors_data():
 
 # Main Streamlit app
 def main():
-    st.title("Authors Explorer with RAG")
+    st.title("TuniSci")
 
     # Tabs for different views
-    tab1, tab2 = st.tabs(["Author Table", "RAG Chat"])
+    tab1, tab2 = st.tabs(["Author Table", "Chat"])
 
     with tab1:
         st.header("Authors H-Index Table")
@@ -67,7 +67,7 @@ def main():
         st.dataframe(df.head(1000))
 
     with tab2:
-        st.header("RAG Chat")
+        st.header("Chat")
         
         # Initialize QA chain
         qa_chain = load_rag_components()
