@@ -13,9 +13,6 @@ from pathlib import Path
 # Load from .env if exists
 load_dotenv()
 
-import platform
-st.write(f"Python version: {platform.python_version()}")
-
 
 # Load from .streamlit/secrets.toml for Streamlit deployment
 if Path(".streamlit/secrets.toml").exists():
