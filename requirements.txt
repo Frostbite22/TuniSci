@@ -9,3 +9,4 @@ azure-ai-inference
 langchain_azure_ai
 langchain_cohere
 ipython
+faiss-cpu==1.7.3
