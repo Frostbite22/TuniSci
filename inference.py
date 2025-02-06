@@ -6,12 +6,12 @@ from langchain.chains import RetrievalQA
 from langchain_openai import OpenAIEmbeddings
 
 
-embedding_model = CustomAzureEmbeddings("Cohere-embed-v3-english")
-# embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+# embedding_model = CustomAzureEmbeddings("Cohere-embed-v3-english")
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
 
 # Load the FAISS index
 vectorstore = FAISS.load_local(
-    "cohere_faiss_index", 
+    "openai_large_faiss_index", 
     embeddings=embedding_model,
     allow_dangerous_deserialization=True
 )
@@ -21,7 +21,7 @@ chat_model = AzureAIChat(chat_model="Cohere-command-r-plus-08-2024")
 # Create a QA chain using the retriever
 qa_chain = RetrievalQA.from_chain_type(llm=chat_model(), retriever=retriever)
 
-query = "Who is Adel Trabelsi?"
+query = "Who is Ramzi Guetari ?"
 
 response = qa_chain.invoke(query)
 print(response["query"])

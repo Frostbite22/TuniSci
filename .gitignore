@@ -7,3 +7,5 @@ faiss_cohere_index
 faiss_index
 .env
 .streamlit/secrets.toml
+openai_large_faiss_index
+openai_small_faiss_index
