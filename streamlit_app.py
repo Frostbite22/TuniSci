@@ -6,6 +6,16 @@ import json
 from rag import AzureAIChat, CustomAzureEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load from .env if exists
+load_dotenv()
+
+# Load from .streamlit/secrets.toml for Streamlit deployment
+if Path(".streamlit/secrets.toml").exists():
+    os.environ["GITHUB_TOKEN"] = st.secrets["GITHUB_TOKEN"]
 
 # Initialize session state for chat history
 if 'chat_history' not in st.session_state:
