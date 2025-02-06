@@ -8,3 +8,4 @@ jq
 azure-ai-inference
 langchain_azure_ai
 langchain_cohere
+ipython
