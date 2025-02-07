@@ -150,13 +150,22 @@ def main():
         st.session_state['retriever'] = retriever
         st.write(f"Using embedding model: {embedding_model_used}")
 
-        # Chat input with callback
-        st.text_input(
-            "Ask a question about authors:",
-            key="user_input",
-            on_change=send_message,
-            value=st.session_state.user_input
-        )
+        # Create a container for input and button
+        col1, col2 = st.columns([4, 1])
+        
+        with col1:
+            # Chat input with callback
+            st.text_input(
+                "Ask a question about authors:",
+                key="user_input",
+                on_change=send_message,
+                value=st.session_state.user_input
+            )
+        
+        with col2:
+            # Send button
+            if st.button("Send", use_container_width=True):
+                send_message()
 
         # Display chat history
         st.subheader("Chat History")
