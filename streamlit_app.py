@@ -16,9 +16,27 @@ load_dotenv()
 if Path(".streamlit/secrets.toml").exists():
     os.environ["GITHUB_TOKEN"] = st.secrets["GITHUB_TOKEN"]
 
-# Initialize session state for chat history
+# Initialize session state for chat history and user input
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+if 'user_input' not in st.session_state:
+    st.session_state.user_input = ""
+
+# Function to handle sending messages
+def send_message():
+    if st.session_state.user_input:
+        user_query = st.session_state.user_input
+        retriever = st.session_state.get('retriever')
+        
+        if retriever:
+            response, model_used = query_chat_model(user_query, retriever)
+            if response:
+                st.session_state.chat_history.append({"user": user_query, "bot": response})
+                # Clear the input after sending
+                st.session_state.user_input = ""
+            else:
+                st.error("All models failed. Please try again later.")
+
 
 # Embedding models and corresponding FAISS index folders
 EMBEDDING_MODELS = {
@@ -108,7 +126,6 @@ def load_authors_data():
 
     return pd.DataFrame(sorted_authors)
 
-# Main Streamlit app
 def main():
     st.title("TuniSci")
 
@@ -129,20 +146,17 @@ def main():
             st.error("Failed to load any embedding model. Please try again later.")
             return
         
+        # Store retriever in session state for access in callback
+        st.session_state['retriever'] = retriever
         st.write(f"Using embedding model: {embedding_model_used}")
 
-        # Chat input
-        user_query = st.text_input("Ask a question about authors:", key="query_input")
-
-        # Send button
-        if st.button("Send"):
-            if user_query:
-                response, model_used = query_chat_model(user_query, retriever)
-                if response:
-                    st.success(f"Response from {model_used}: {response}")
-                    st.session_state.chat_history.append({"user": user_query, "bot": response})
-                else:
-                    st.error("All models failed. Please try again later.")
+        # Chat input with callback
+        st.text_input(
+            "Ask a question about authors:",
+            key="user_input",
+            on_change=send_message,
+            value=st.session_state.user_input
+        )
 
         # Display chat history
         st.subheader("Chat History")
@@ -154,6 +168,7 @@ def main():
         # Clear chat history button
         if st.button("Clear Chat History"):
             st.session_state.chat_history = []
+            st.session_state.user_input = ""
 
 if __name__ == "__main__":
     main()
