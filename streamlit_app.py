@@ -29,8 +29,8 @@ EMBEDDING_MODELS = {
 
 # Chat models for dynamic switching
 CHAT_MODELS = [
-    "Cohere-command-r-plus",
     "Cohere-command-r-plus-08-2024",
+    "Cohere-command-r-plus",
     "Cohere-command-r-08-2024",
     "gpt-4o",
     "gpt-4o-mini"
