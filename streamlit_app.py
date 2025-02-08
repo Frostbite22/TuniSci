@@ -16,26 +16,21 @@ load_dotenv()
 if Path(".streamlit/secrets.toml").exists():
     os.environ["GITHUB_TOKEN"] = st.secrets["GITHUB_TOKEN"]
 
-# Initialize session state for chat history and user input
+# Initialize session state for chat history
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
-if 'user_input' not in st.session_state:
-    st.session_state.user_input = ""
 
-# Function to handle sending messages
-def send_message():
-    if st.session_state.user_input:
-        user_query = st.session_state.user_input
-        retriever = st.session_state.get('retriever')
-        
-        if retriever:
-            response, model_used = query_chat_model(user_query, retriever)
-            if response:
-                st.session_state.chat_history.append({"user": user_query, "bot": response})
-                # Clear the input after sending
-                st.session_state.user_input = ""
-            else:
-                st.error("All models failed. Please try again later.")
+# Function to process the message
+def process_message(user_query, retriever):
+    if user_query and retriever:
+        response, model_used = query_chat_model(user_query, retriever)
+        if response:
+            # Add new messages to the beginning of the list
+            st.session_state.chat_history.insert(0, {"user": user_query, "bot": response})
+            return True
+        else:
+            st.error("All models failed. Please try again later.")
+    return False
 
 
 # Embedding models and corresponding FAISS index folders
@@ -146,38 +141,38 @@ def main():
             st.error("Failed to load any embedding model. Please try again later.")
             return
         
-        # Store retriever in session state for access in callback
-        st.session_state['retriever'] = retriever
         st.write(f"Using embedding model: {embedding_model_used}")
 
-        # Create a container for input and button
-        col1, col2 = st.columns([4, 1])
+        # Chat interface
+        st.write("Ask a question about authors:")
         
+        # Container for input and button with custom styling
+        col1, col2 = st.columns([5, 1])  # Adjusted ratio
+        
+        # Input field
         with col1:
-            # Chat input with callback
-            st.text_input(
-                "Ask a question about authors:",
-                key="user_input",
-                on_change=send_message,
-                value=st.session_state.user_input
-            )
+            user_input = st.text_input("", key="query_input", label_visibility="collapsed")
         
+        # Send button in second column
         with col2:
-            # Send button
-            if st.button("Send", use_container_width=True):
-                send_message()
+            send_pressed = st.button("Send", type="primary", use_container_width=True)
 
-        # Display chat history
-        st.subheader("Chat History")
-        for chat in st.session_state.chat_history:
-            st.markdown(f"**You:** {chat['user']}")
-            st.markdown(f"**Bot:** {chat['bot']}")
-            st.markdown("---")
+        # Process message when send is pressed
+        if send_pressed and user_input:
+            process_message(user_input, retriever)
 
-        # Clear chat history button
-        if st.button("Clear Chat History"):
-            st.session_state.chat_history = []
-            st.session_state.user_input = ""
+        # Display chat history (newest first)
+        if st.session_state.chat_history:
+            st.subheader("Chat History")
+            # No need to reverse the list since we're now inserting new messages at the beginning
+            for chat in st.session_state.chat_history:
+                st.markdown(f"**You:** {chat['user']}")
+                st.markdown(f"**Bot:** {chat['bot']}")
+                st.markdown("---")
+
+            # Clear chat history button
+            if st.button("Clear Chat History"):
+                st.session_state.chat_history = []
 
 if __name__ == "__main__":
     main()
