@@ -118,9 +118,8 @@ def load_authors_data():
 
     for i, author in enumerate(sorted_authors):
         author["rank"] = i + 1
-
-    return pd.DataFrame(sorted_authors)
-
+    # not show the dataFrame index
+    return pd.DataFrame(sorted_authors).set_index("rank")
 def main():
     st.title("TuniSci")
 
