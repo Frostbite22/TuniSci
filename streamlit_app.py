@@ -35,7 +35,7 @@ def process_message(user_query, retriever):
 
 # Embedding models and corresponding FAISS index folders
 EMBEDDING_MODELS = {
-    "Cohere-embed-v3-english": "cohere_english_faiss_index",
+    "Cohere-embed-v3-english": "cohere_english_faiss_index_v2",
     "text-embedding-3-small": "openai_small_faiss_index",
     "text-embedding-3-large": "openai_large_faiss_index",
 }

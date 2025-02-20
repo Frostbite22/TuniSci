@@ -13,8 +13,11 @@ from langchain.chains import RetrievalQA
 from langchain_openai import OpenAIEmbeddings
 import CHAT_MODELS
 import EMBEDDING_MODELS
-from utils import  json_to_flattened_text_azure_ai, json_to_flattened_text_openai
+from utils import  json_to_flattened_text, json_to_flattened_text_azure_ai, json_to_flattened_text_openai
 from IPython.display import display, Markdown
+
+from tqdm import tqdm  # for progress tracking
+from langchain.schema import Document
 
 
 ENDPOINT = "https://models.inference.ai.azure.com"
@@ -106,53 +109,84 @@ class RAGFrontend:
             return self.__AzureAIEmbed__(embedding_model)
             
     def __flattened_text_from_json__(self) -> str:
-        if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" :
-            flattened_text = json_to_flattened_text_openai(self.json_file_path)
-        else : 
-            flattened_text = json_to_flattened_text_azure_ai(self.json_file_path)
+
+        flattened_text = json_to_flattened_text(self.json_file_path)
 
         return flattened_text
     
-    def create_vector_store(self):
+
+    def create_vector_store(self) -> FAISS:
         """
-        Creates a FAISS vector store from text documents using specified embedding model.
-
-        This function processes text documents and creates a searchable vector store using FAISS.
-        It handles different embedding models and applies appropriate text splitting strategies
-        based on the model type.
-
-        Parameters:
-            texts (list): List of text documents to be embedded.
-
+        Creates a FAISS vector store from author profiles using specified embedding model.
+        Handles large datasets by processing in batches and includes error handling.
+        
         Returns:
-            FAISS: A FAISS vector store containing the embedded documents.
-
-        Raises:
-            ValueError: If the embedding model is not valid or not supported.
-
-        Notes:
-            - For 'text-embedding-3-large' and 'text-embedding-3-small' models:
-                * Uses chunk size of 190 with 10 token overlap
-                * Applies recursive character text splitting
-            - For other embedding models:
-                * CustomAzrueEmbeddings handles the chunking and embedding
-                * Includes source metadata for each document
+            FAISS: A FAISS vector store containing the embedded documents
         """
-        if self.__validate_embedding_model__(self.embedding_model):
-            embeddings = self.__get_embeddings__(self.embedding_model)
-            flattened_text = self.__flattened_text_from_json__()
-            if self.embedding_model == "text-embedding-3-large" or self.embedding_model == "text-embedding-3-small" :
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=190, chunk_overlap=20)
-                chunks = text_splitter.split_text(flattened_text)
-                vectorstore = FAISS.from_texts(chunks, embeddings)
-                return vectorstore
-            else :
-                # Create FAISS index with the custom embedding function
-                vectorstore = FAISS.from_texts(
-                    texts=flattened_text,
-                    embedding=embeddings,
-                    metadatas=[{"source": str(i)} for i in range(len(flattened_text))]
-                )
-                return vectorstore
+        if not self.__validate_embedding_model__(self.embedding_model):
+            raise ValueError(f"Invalid embedding model: {self.embedding_model}")
 
+        try:
+            # Get embeddings model
+            embeddings = self.__get_embeddings__(self.embedding_model)
+            
+            # Get formatted text chunks
+            chunks = self.__flattened_text_from_json__()
+            if not chunks:
+                raise ValueError("No text chunks were generated from the JSON file")
+
+            print(f"Processing {len(chunks)} author profiles...")
+            
+            # Initialize vectorstore as None
+            vectorstore = None
+            
+            # Process in batches to handle token limits
+            batch_size = 50  # Adjust based on your needs
+            
+            # Use tqdm for progress tracking
+            for i in tqdm(range(0, len(chunks), batch_size), desc="Creating vector store"):
+                batch = chunks[i:i + batch_size]
+                
+                # Create metadata for the batch
+                batch_metadata = [
+                    {
+                        "source": f"author_{i + idx}",
+                        "chunk_number": i + idx,
+                        "batch_number": i // batch_size
+                    } 
+                    for idx in range(len(batch))
+                ]
+                
+                try:
+                    if vectorstore is None:
+                        # Create initial vectorstore
+                        vectorstore = FAISS.from_texts(
+                            texts=batch,
+                            embedding=embeddings,
+                            metadatas=batch_metadata
+                        )
+                    else:
+                        # Create temporary vectorstore for the batch
+                        batch_vectorstore = FAISS.from_texts(
+                            texts=batch,
+                            embedding=embeddings,
+                            metadatas=batch_metadata
+                        )
+                        # Merge into main vectorstore
+                        vectorstore.merge_from(batch_vectorstore)
+                    
+                except Exception as e:
+                    print(f"Error processing batch {i // batch_size}: {str(e)}")
+                    print(f"Skipping problematic batch and continuing...")
+                    continue
+            
+            if vectorstore is None:
+                raise ValueError("Failed to create vector store - all batches failed")
+                
+            print("Vector store creation completed successfully!")
+            return vectorstore
+            
+        except Exception as e:
+            print(f"Error creating vector store: {str(e)}")
+            raise
 

@@ -50,6 +50,30 @@ def json_to_flattened_text_azure_ai(json_file_path):
 
     return flattened_text
 
+def json_to_flattened_text(json_file_path):
+    # Load the large JSON document
+    with open(json_file_path, "r", encoding="utf-8") as file:
+        authors = json.load(file)
+
+    formatted_chunks = []
+    
+    for author in authors:
+        chunk = f"""Author: {author.get('profile_name', 'N/A')}
+Profile Link: {author.get('profile_link', 'N/A')}
+Research Interests: {', '.join(author.get('profile_interests', []))}
+Affiliation: {author.get('profile_affiliations', 'N/A')}
+Email: {author.get('profile_email', 'N/A')}
+H-index: {author.get('hindex', 'N/A')}
+H-index (5y): {author.get('hindex5y', 'N/A')}
+i10-index: {author.get('i10index', 'N/A')}
+i10-index (5y): {author.get('i10index5y', 'N/A')}
+"""
+        formatted_chunks.append(chunk)
+    
+    return formatted_chunks
+
+
+
 def json_to_flattened_text_openai(json_file_path):
     # Load the large JSON document
     with open(json_file_path, "r", encoding="utf-8") as file:
