@@ -9,12 +9,12 @@ from rag import RAGFrontend
 
 # For SentenceTransformer embeddings
 rag = RAGFrontend(
-    embedding_model="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    embedding_model="sentence-transformers/paraphrase-MiniLM-L6-v2",
     json_file_path="authors_with_h_index.json"
 )
 vectorstore = rag.create_vector_store()
 # Save the FAISS index
-vectorstore.save_local("paraphrase_multilingual_faiss_index")
+vectorstore.save_local("Paraphrase_MiniLM_L6_v2_faiss_index")
 
 print("FAISS index saved successfully")
 

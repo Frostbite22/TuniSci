@@ -7,7 +7,8 @@ class EmbeddingModel(enum.Enum):
     COHERE_EMBED_V3_MULTILINGUAL = "Cohere-embed-v3-multilingual"
     COHERE_EMBED_V3_ENGLISH = "Cohere-embed-v3-english"
     PARAPHRASE_MULTILINGUAL_MINILM_L12_V2 = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-    PARAPHRASE_MULTILINGUAL_MINILM_L6_V2 = "sentence-transformers/paraphrase-multilingual-MiniLM-L6-v2"
+    PARAPHRASE_MINILM_L6_V2 = "sentence-transformers/paraphrase-MiniLM-L6-v2"
+    ALL_MINILM_L6_V2 = "sentence-transformers/all-MiniLM-L6-v2"
 
     def __str__(self):
         return self.value

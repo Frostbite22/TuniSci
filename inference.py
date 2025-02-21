@@ -14,9 +14,9 @@ from langchain.memory import ConversationTokenBufferMemory
 # Load embeddings and vectorstore as before
 # embedding_model = CustomAzureEmbeddings(model_name="Cohere-embed-v3-english")
 # embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
-embedding_model = SentenceTransformerWrapper(model="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+embedding_model = SentenceTransformerWrapper(model="sentence-transformers/paraphrase-MiniLM-L6-v2")
 vectorstore = FAISS.load_local(
-    "paraphrase_multilingual_faiss_index", 
+    "Paraphrase_MiniLM_L6_v2_faiss_index", 
     embeddings=embedding_model,
     allow_dangerous_deserialization=True
 )
