@@ -28,6 +28,7 @@ if 'selected_chat_model' not in st.session_state:
 # Embedding models and corresponding FAISS index folders
 EMBEDDING_MODELS = {
     "Cohere-embed-v3-english": "cohere_english_faiss_index_v2",
+    "Cohere-embed-v3-multilingual": "Cohere_embed_v3_multilingual_faiss_index",
     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2": "paraphrase_multilingual_faiss_index",
     "sentence-transformers/all-MiniLM-L6-v2": "allMiniLM_L6_v2_faiss_index",
     "sentence-transformers/paraphrase-MiniLM-L6-v2": "Paraphrase_MiniLM_L6_v2_faiss_index"
