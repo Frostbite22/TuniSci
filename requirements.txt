@@ -10,4 +10,4 @@ langchain_azure_ai
 langchain_cohere
 ipython
 faiss-cpu
-SentenceTransformer
+sentence-transformers
