@@ -1,6 +1,6 @@
 ### Intference using the RAG model
 # get the embedding model
-from rag import AzureAIChat, CustomAzureEmbeddings
+from rag import AzureAIChat, CustomAzureEmbeddings, SentenceTransformerWrapper
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_openai import OpenAIEmbeddings
@@ -12,10 +12,11 @@ from langchain.retrievers import ContextualCompressionRetriever
 from langchain.memory import ConversationTokenBufferMemory
 
 # Load embeddings and vectorstore as before
-embedding_model = CustomAzureEmbeddings(model_name="Cohere-embed-v3-english")
+# embedding_model = CustomAzureEmbeddings(model_name="Cohere-embed-v3-english")
 # embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+embedding_model = SentenceTransformerWrapper(model="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 vectorstore = FAISS.load_local(
-    "cohere_english_faiss_index_v2", 
+    "paraphrase_multilingual_faiss_index", 
     embeddings=embedding_model,
     allow_dangerous_deserialization=True
 )
