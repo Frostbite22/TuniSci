@@ -127,7 +127,7 @@ def main():
     tab1, tab2 = st.tabs(["Author Table", "Chat"])
 
     with tab1:
-        st.header("Authors H-Index Table")
+        st.header("Authors H-Index Table in Tunisia")
         df = load_authors_data()
         st.write(f"Average H-Index: {df['hindex'].astype(int).mean():.2f}")
         st.dataframe(df.head(1000))
