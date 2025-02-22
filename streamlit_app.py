@@ -8,7 +8,6 @@ from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from rag import SentenceTransformerWrapper, OpenAIEmbeddings
 
 # Load from .env if exists
 load_dotenv()
@@ -25,7 +24,6 @@ if 'selected_embedding_model' not in st.session_state:
 if 'selected_chat_model' not in st.session_state:
     st.session_state.selected_chat_model = "Cohere-command-r-plus-08-2024"
 
-# Embedding models and corresponding FAISS index folders
 EMBEDDING_MODELS = {
     "Cohere-embed-v3-english": "cohere_english_faiss_index_v2",
     "Cohere-embed-v3-multilingual": "Cohere_embed_v3_multilingual_faiss_index",
@@ -51,7 +49,8 @@ def load_rag_components(embedding_model_name):
         if "Cohere" in embedding_model_name:
             embedding_model = CustomAzureEmbeddings(embedding_model_name)
         else:
-            embedding_model = SentenceTransformerWrapper(model=embedding_model_name)
+            from langchain.embeddings import OpenAIEmbeddings
+            embedding_model = OpenAIEmbeddings(model=embedding_model_name)
 
         vectorstore = FAISS.load_local(
             index_folder,
@@ -170,18 +169,20 @@ def main():
         # Chat interface
         st.write("Ask a question about authors:")
         
-        # Input and button layout
-        col1, col2 = st.columns([5, 1])
-        
-        with col1:
-            user_input = st.text_input("", key="query_input", label_visibility="collapsed")
-        
-        with col2:
-            send_pressed = st.button("Send", type="primary", use_container_width=True)
-
-        # Process message when send is pressed
-        if send_pressed and user_input:
-            process_message(user_input, retriever, selected_chat)
+        # Create a form for the chat input
+        with st.form(key="chat_form", clear_on_submit=True):
+            # Input and button layout
+            col1, col2 = st.columns([5, 1])
+            
+            with col1:
+                user_input = st.text_input("", key="query_input", label_visibility="collapsed")
+            
+            with col2:
+                submit_button = st.form_submit_button("Send", type="primary", use_container_width=True)
+            
+            # Process message when form is submitted (either by button or Enter key)
+            if submit_button and user_input:
+                process_message(user_input, retriever, selected_chat)
 
         # Display chat history
         if st.session_state.chat_history:
