@@ -6,7 +6,7 @@ import random
 from pathlib import Path
 from datetime import datetime
 from parsel import Selector
-from scholarly import scholarly, ProxyGenerator
+from scholarly import scholarly
 from tqdm import tqdm
 from typing import Dict, List, Optional
 import logging
@@ -28,10 +28,8 @@ class ScholarScraper:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(exist_ok=True)
         
-        # Configure scholarly with proxy support
-        pg = ProxyGenerator()
-        pg.FreeProxies()
-        scholarly.use_proxy(pg)
+        # Initialize scholarly without proxy to avoid compatibility issues
+        self._configure_scholarly()
         
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.87 Safari/537.36",
@@ -39,6 +37,13 @@ class ScholarScraper:
         
         # Initialize Tunisian keywords
         self.keywords = TunisianAcademicKeywords()
+
+    def _configure_scholarly(self):
+        """Configure scholarly with basic settings."""
+        try:
+            scholarly.use_defaults()
+        except Exception as e:
+            logging.warning(f"Failed to configure scholarly with defaults: {str(e)}")
 
     def _get_search_query(self) -> str:
         """Generate the search query using the comprehensive keywords list."""
