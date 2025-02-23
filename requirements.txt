@@ -11,3 +11,6 @@ langchain_cohere
 ipython
 faiss-cpu
 sentence-transformers
+parsel
+scholarly
+requests
