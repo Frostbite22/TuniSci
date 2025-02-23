@@ -307,55 +307,55 @@ class TunisianAcademicKeywords:
             'all_variants': self.get_all_institutions()
         }, indent=2, ensure_ascii=False)
     
-def get_search_query(self):
-    """
-    Combines all keywords into a search query with proper formatting and weighting
-    Returns a query string optimized for Google Scholar search
-    """
-    all_terms = []
-    
-    # Add domains with high specificity
-    all_terms.extend([f'"{domain}"' for domain in self.domains])
-    
-    # Add all universities and institutions (with variants)
-    for university in self.public_universities + self.private_universities:
-        all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(university)])
-    
-    # Add engineering schools (very specific to Tunisia)
-    for school in self.engineering_schools:
-        all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(school)])
-    
-    # Add specialized institutes
-    for category in self.specialized_institutes.values():
-        for institute in category:
+    def get_search_query(self):
+        """
+        Combines all keywords into a search query with proper formatting and weighting
+        Returns a query string optimized for Google Scholar search
+        """
+        all_terms = []
+        
+        # Add domains with high specificity
+        all_terms.extend([f'"{domain}"' for domain in self.domains])
+        
+        # Add all universities and institutions (with variants)
+        for university in self.public_universities + self.private_universities:
+            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(university)])
+        
+        # Add engineering schools (very specific to Tunisia)
+        for school in self.engineering_schools:
+            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(school)])
+        
+        # Add specialized institutes
+        for category in self.specialized_institutes.values():
+            for institute in category:
+                all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institute)])
+        
+        # Add research institutes
+        for institute in self.research_institutes:
             all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institute)])
-    
-    # Add research institutes
-    for institute in self.research_institutes:
-        all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institute)])
-    
-    # Add medical institutions
-    for institution in self.medical_institutions:
-        all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institution)])
-    
-    # Add tech parks
-    all_terms.extend([f'"{park}"' for park in self.tech_parks])
-    
-    # Add cities with academic terms combinations
-    city_terms = []
-    academic_terms = ["university", "université", "institut", "institute", 
-                        "faculty", "faculté", "research", "recherche", 
-                        "école", "school"]
-    
-    for city in self.academic_cities:
-        for term in academic_terms:
-            city_terms.append(f'"{city}" "{term}"')
-    
-    all_terms.extend(city_terms)
-    
-    # Add domain-specific email patterns
-    for domain in self.domains:
-        all_terms.append(f'"@{domain}"')
-    
-    # Combine all terms with OR operator
-    return " OR ".join(all_terms)
+        
+        # Add medical institutions
+        for institution in self.medical_institutions:
+            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institution)])
+        
+        # Add tech parks
+        all_terms.extend([f'"{park}"' for park in self.tech_parks])
+        
+        # Add cities with academic terms combinations
+        city_terms = []
+        academic_terms = ["university", "université", "institut", "institute", 
+                            "faculty", "faculté", "research", "recherche", 
+                            "école", "school"]
+        
+        for city in self.academic_cities:
+            for term in academic_terms:
+                city_terms.append(f'"{city}" "{term}"')
+        
+        all_terms.extend(city_terms)
+        
+        # Add domain-specific email patterns
+        for domain in self.domains:
+            all_terms.append(f'"@{domain}"')
+        
+        # Combine all terms with OR operator
+        return " OR ".join(all_terms)
