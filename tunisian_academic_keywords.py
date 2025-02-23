@@ -1,25 +1,25 @@
 class TunisianAcademicKeywords:
     def __init__(self):
         # Inherit previous variant handling mechanisms
-        self.name_variants = {
+        self.name_variants = [
             # Previous variants remain the same
-            "El-Manar": ["El Manar", "Elmanar", "El-Manar", "Manar"],
-            "El-Ghazala": ["El Ghazala", "Elghazala", "El-Ghazala", "Ghazala"],
-            "Ez-Zitouna": ["Ez Zitouna", "Ezzitouna", "El-Zitouna", "Zitouna", "Zeitouna"],
-            "Faculté": ["Faculte", "Facultés", "Facultes"],
-            "Institut": ["Institute", "Institue"],
-            "École": ["Ecole", "School"],
-            "Université": ["Universite", "University"],
-            "Supérieur": ["Superieur", "Superior"],
-            "Ingénieur": ["Ingenieur", "Engineer"],
-            "Médecine": ["Medecine", "Medicine"],
-            "Économique": ["Economique", "Economic"],
-            "Études": ["Etudes", "Studies"],
-            "Préparatoire": ["Preparatoire", "Preparatory"],
-            "Génie": ["Genie", "Engineering"],
-            "Supérieure": ["Superieure", "Superior"],
-            "Appliquées": ["Appliquees", "Applied"]
-        }
+            "El-Manar","El Manar", "Elmanar", "El-Manar", "Manar",
+            "El-Ghazala","El Ghazala", "Elghazala", "El-Ghazala", "Ghazala",
+            "Ez-Zitouna","Ez Zitouna", "Ezzitouna", "El-Zitouna", "Zitouna", "Zeitouna",
+            "Faculté","Faculte", "Facultés", "Facultes",
+            "Institut","Institute", "Institue",
+            "École","Ecole", "School",
+            "Université","Universite", "University",
+            "Supérieur","Superieur", "Superior",
+            "Ingénieur","Ingenieur", "Engineer",
+            "Médecine","Medecine", "Medicine",
+            "Économique","Economique", "Economic",
+            "Études","Etudes", "Studies",
+            "Préparatoire","Preparatoire", "Preparatory",
+            "Génie","Genie", "Engineering",
+            "Supérieure","Superieure", "Superior",
+            "Appliquées", "Appliquees", "Applied"
+        ]
 
         # Complete list of public universities
         self.public_universities = [
@@ -316,46 +316,13 @@ class TunisianAcademicKeywords:
         
         # Add domains with high specificity
         all_terms.extend([f'"{domain}"' for domain in self.domains])
-        
-        # Add all universities and institutions (with variants)
-        for university in self.public_universities + self.private_universities:
-            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(university)])
-        
-        # Add engineering schools (very specific to Tunisia)
-        for school in self.engineering_schools:
-            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(school)])
-        
-        # Add specialized institutes
-        for category in self.specialized_institutes.values():
-            for institute in category:
-                all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institute)])
-        
-        # Add research institutes
-        for institute in self.research_institutes:
-            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institute)])
-        
-        # Add medical institutions
-        for institution in self.medical_institutions:
-            all_terms.extend([f'"{variant}"' for variant in self.generate_all_variants(institution)])
-        
-        # Add tech parks
+        all_terms.extend([f'"{city}"' for city in self.academic_cities])
+        all_terms.extend([f'"{uni}"' for uni in self.public_universities])
+        all_terms.extend([f'"{uni}"' for uni in self.private_universities])
+        all_terms.extend([f'"{variant}"' for variant in self.name_variants])
         all_terms.extend([f'"{park}"' for park in self.tech_parks])
-        
-        # Add cities with academic terms combinations
-        city_terms = []
-        academic_terms = ["university", "université", "institut", "institute", 
-                            "faculty", "faculté", "research", "recherche", 
-                            "école", "school"]
-        
-        for city in self.academic_cities:
-            for term in academic_terms:
-                city_terms.append(f'"{city}" "{term}"')
-        
-        all_terms.extend(city_terms)
-        
-        # Add domain-specific email patterns
-        for domain in self.domains:
-            all_terms.append(f'"@{domain}"')
+                
         
         # Combine all terms with OR operator
         return " OR ".join(all_terms)
+    

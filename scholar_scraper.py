@@ -49,21 +49,35 @@ class ScholarScraper:
         """Generate the search query using the comprehensive keywords list."""
         return self.keywords.get_search_query()
 
-    def _make_request(self, url: str, params: Dict, retry_count: int = 3) -> Optional[requests.Response]:
-        """Make HTTP request with retry mechanism and random delays."""
+    def _make_request(self, url: str, params: Dict, retry_count: int = 5) -> Optional[requests.Response]:
+        """
+        Make an HTTP request with retry mechanism, exponential backoff, and CAPTCHA detection.
+        """
         for attempt in range(retry_count):
             try:
-                # Random delay between requests
-                time.sleep(random.uniform(2, 5))
+                # Randomized delay to avoid rate limiting
+                delay = random.uniform(2 ** attempt, 5 * 2 ** attempt)  # Exponential backoff
+                logging.info(f"Attempt {attempt + 1}: Waiting {delay:.2f} seconds before request...")
+                time.sleep(delay)
+
                 response = requests.get(url, params=params, headers=self.headers, timeout=30)
-                response.raise_for_status()
-                return response
+                response.raise_for_status()  # Raise HTTP errors (403, 429, etc.)
+
+                # Check if response contains a CAPTCHA challenge
+                if "Our systems have detected unusual traffic" in response.text:
+                    logging.error("CAPTCHA detected! Google Scholar is blocking requests.")
+                    return None  # Stop retrying if CAPTCHA is triggered
+
+                return response  # Return valid response
+
             except requests.RequestException as e:
-                logging.warning(f"Attempt {attempt + 1} failed: {str(e)}")
+                logging.warning(f"Attempt {attempt + 1} failed: {e}")
+
                 if attempt == retry_count - 1:
-                    logging.error(f"Failed to make request after {retry_count} attempts")
-                    return None
-                time.sleep(random.uniform(5, 10))  # Longer delay between retries
+                    logging.error(f"Failed to make request after {retry_count} attempts.")
+                    return None  # Stop retrying after final attempt
+
+        return None  # Should never reach this point
 
     def scrape_profiles(self) -> List[Dict]:
         """Scrape Google Scholar profiles."""
