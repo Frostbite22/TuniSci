@@ -3411,3 +3411,5 @@
 2025-02-23 15:30:32,676 - INFO - Found 1 authors
 2025-02-23 15:30:32,676 - INFO - Getting https://scholar.google.com/citations?hl=en&user=g2TW3UoAAAAJ&pagesize=100
 2025-02-23 15:30:34,060 - INFO - HTTP Request: GET https://scholar.google.com/citations?hl=en&user=g2TW3UoAAAAJ&pagesize=100 "HTTP/1.1 200 OK"
+2025-02-23 15:31:10,821 - WARNING - Failed to configure scholarly with defaults: '_Scholarly' object has no attribute 'use_defaults'
+2025-02-23 15:31:10,822 - INFO - Starting profile scraping...
