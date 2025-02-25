@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  tunisci:
+    container_name: tunisci
+    build: .
+    ports:
+      - "8051:8051"  # Map port 8051 on the host to port 8051 in the container
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container
+    environment:
+      - PYTHONUNBUFFERED=1  # Ensure Python output is sent straight to the terminal
+    restart: unless-stopped  # Automatically restart the container unless it is explicitly stopped
