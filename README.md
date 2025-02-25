@@ -105,4 +105,3 @@ Check out the ranking of the top 100 scholars:
 
 ## 📜 License
 This project is open-source and available under the [MIT License](LICENSE).
-
