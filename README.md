@@ -1,46 +1,107 @@
-# Deployment Instructions for Streamlit App
+# 🎓 TuniSci: Tunisian Scholars Research Impact Analysis
 
-To deploy the Streamlit app to Streamlit, follow these steps:
+This project analyzes the research impact of Tunisian scholars by scraping data from Google Scholar. It includes **2130 scholars** from various universities, research fields, and interests. The goal is to reflect the real impact and contribution of Tunisian universities to global research and higher education quality.
 
-## metrics 
-What is a Good h-Index? Hirsch reckons that after 20 years of research, an h-index of 20 is good, 40 is outstanding, and 60 is truly exceptional.
+---
 
-## Scope 
-This project is build by scraping the google scholars for Tunisian university. It contains 2130 scholars from different univerities, with different research fields and interests.
+## 📊 Key Metrics
+- **Average h-index**: **8.2**
+- **What is a Good h-Index?**  
+  According to Hirsch:
+  - **20**: Good after 20 years of research
+  - **40**: Outstanding
+  - **60**: Truly exceptional
 
-## Objective 
-This project's intent is to refect the real impact and contribution of Tunisian universities on research in general and on the qualities of higher education in Tunisia.
+---
 
-## Significatant statistics 
-Average h-index : 8.2
+## 🌍 Project Scope
+- **Data Source**: Google Scholar
+- **Scholars**: 2130 Tunisian scholars from different universities and research fields.
+- **Objective**: Reflect the real impact and contribution of Tunisian universities on global research and higher education quality.
 
-## Running the Streamlit App
+---
 
-To run the Streamlit app, follow these steps:
+## 📈 Significant Statistics
+- **Average h-index**: 8.2
+- **Top 100 Scholars**: [View Ranking](scholars_ranking.md)
 
-1. Install the required libraries:
+---
+
+## 🚀 Running the Streamlit App Locally
+
+### Prerequisites
+- Python 3.9 or higher
+- Docker (optional, for containerized deployment)
+
+---
+
+### Option 1: Run with Python 🐍
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Frostbite22/TuniSci.git
+   cd TuniSci
+   ```
+
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Run the Streamlit app:
+3. Run the Streamlit app:
    ```bash
    streamlit run streamlit_app.py
    ```
 
-## Deployment
+4. Access to the app:
+   Open your browser and go to `http://localhost:8501`.
 
-The project is deployed and accessible at [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
+---
 
+### Option 2: Run with Docker 🐳
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Frostbite22/TuniSci.git
+   cd TuniSci
+   ```
 
-## Things to be done in this project (contributions are welcomed)
-#### Average h-index by research field ( most successful fields )
-#### standard deviation from all authors ( we have many with zero publications ) 
-#### number of scholars working on each field 
+2. Build and run the Docker container:
+   ```bash
+   sudo docker-compose up -d --build
+   ```
 
-## Deployment
+3. Check the logs to confirm the app is running:
+   ```bash
+   sudo docker-compose logs -f
+   ```
 
-The project is deployed and accessible at [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
+4. Access to the app:
+   Open your browser and navigate to the network URL returned by the previous command.
 
+5. To stop the container:
+   ```bash
+   sudo docker-compose down
+   ```
 
-[Here](scholars_ranking.md) is the link to the top 100 scholars ranking file.
+---
+
+## 🌐 Deployment
+The project is deployed and accessible at:  
+👉 [https://tunisci.streamlit.app/](https://tunisci.streamlit.app/)
+
+---
+
+## 🔮 Future Enhancements (Contributions Welcome! 🙌)
+- **Average h-index by research field**: Identify the most successful fields.
+- **Standard deviation of h-index**: Analyze the distribution of h-index scores (many scholars have zero publications).
+- **Number of scholars per research field**: Visualize the distribution of scholars across fields.
+
+---
+
+## 🏆 Top 100 Scholars Ranking
+Check out the ranking of the top 100 scholars:  
+[View Top 100 Scholars](scholars_ranking.md)
+
+---
+
+## 📜 License
+This project is open-source and available under the [MIT License](LICENSE).
