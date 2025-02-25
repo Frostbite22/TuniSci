@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 8051
 
 # Define the command to run your Streamlit application
-CMD ["streamlit", "run", "streamlit_app.py"]
+CMD ["streamlit", "run", "streamlit_app.py", "--server.address=0.0.0.0", "--server.port=8051"]
