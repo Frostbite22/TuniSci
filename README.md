@@ -1,6 +1,6 @@
 # 🎓 TuniSci: Tunisian Scholars Research Impact Analysis
 
-This project analyzes the research impact of Tunisian scholars by scraping data from Google Scholar. It includes **2130 scholars** from various universities, research fields, and interests. The goal is to reflect the real impact and contribution of Tunisian universities to global research and higher education quality.
+This project analyzes the research impact of Tunisian scholars ### Option 3: Quick Setup with uv Only 🚀y scraping data from Google Scholar. It includes **5945 scholars** from various universities, research fields, and interests. The goal is to reflect the real impact and contribution of Tunisian universities to global research and higher education quality.
 
 ---
 
@@ -16,13 +16,12 @@ This project analyzes the research impact of Tunisian scholars by scraping data 
 
 ## 🌍 Project Scope
 - **Data Source**: Google Scholar
-- **Scholars**: 2130 Tunisian scholars from different universities and research fields.
+- **Scholars**: 5945 Tunisian scholars from different universities and research fields.
 - **Objective**: Reflect the real impact and contribution of Tunisian universities on global research and higher education quality.
 
 ---
 
 ## 📈 Significant Statistics
-- **Average h-index**: 8.2
 - **Top 100 Scholars**: [View Ranking](scholars_ranking.md)
 
 ---
@@ -30,34 +29,134 @@ This project analyzes the research impact of Tunisian scholars by scraping data 
 ## 🚀 Running the Streamlit App Locally
 
 ### Prerequisites
-- Python 3.9 or higher
+- [pyenv](https://github.com/pyenv/pyenv) (for Python version management)
+- [uv](https://docs.astral.sh/uv/) (for fast package management and virtual environments)
+- [Poetry](https://python-poetry.org/) (for dependency management)
 - Docker (optional, for containerized deployment)
 
 ---
 
-### Option 1: Run with Python 🐍
+### Option 1: Complete Setup with pyenv + uv + Poetry (Recommended) 🚀
 1. Clone the repository:
    ```bash
    git clone https://github.com/Frostbite22/TuniSci.git
    cd TuniSci
    ```
 
-2. Install dependencies:
+2. Install pyenv (if not already installed):
    ```bash
-   pip install -r requirements.txt
+   # macOS with Homebrew
+   brew install pyenv
+   
+   # Or using the installer
+   curl https://pyenv.run | bash
    ```
 
-3. Run the Streamlit app:
+3. Install and set local Python version:
+   ```bash
+   # Install Python 3.11 (or your preferred version)
+   pyenv install 3.11.9
+   
+   # Set local Python version for this project
+   pyenv local 3.11.9
+   ```
+
+4. Install uv (if not already installed):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+5. Create virtual environment with uv:
+   ```bash
+   uv venv .venv
+   
+   # Activate the virtual environment
+   source .venv/bin/activate
+   ```
+
+6. Install Poetry (if not already installed):
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+7. Configure Poetry to use the existing virtual environment:
+   ```bash
+   poetry config virtualenvs.prefer-active-python true
+   ```
+
+8. Install dependencies with uv:
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+9. Run the Streamlit app:
    ```bash
    streamlit run streamlit_app.py
+   # Or with Poetry if you prefer
+   poetry run streamlit run streamlit_app.py
    ```
 
-4. Access to the app:
+10. Access the app:
+    Open your browser and go to `http://localhost:8501`.
+
+### Option 2: Quick Setup with Poetry Only 🐍
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Frostbite22/TuniSci.git
+   cd TuniSci
+   ```
+
+2. Install Poetry (if not already installed):
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+3. Install dependencies and create virtual environment:
+   ```bash
+   poetry install
+   ```
+
+4. Run the Streamlit app:
+   ```bash
+   poetry run streamlit run streamlit_app.py
+   ```
+
+### Option 2: Run with uv �
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Frostbite22/TuniSci.git
+   cd TuniSci
+   ```
+
+2. Install uv (if not already installed):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+3. Create virtual environment with uv:
+   ```bash
+   uv venv .venv
+   
+   # Activate the virtual environment
+   source .venv/bin/activate
+   ```
+
+4. Install dependencies:
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+5. Run the Streamlit app:
+   ```bash
+   uv run streamlit run streamlit_app.py
+   ```
+
+6. Access the app:
    Open your browser and go to `http://localhost:8501`.
 
 ---
 
-### Option 2: Run with Docker 🐳
+### Option 4: Run with Docker 🐳
 1. Clone the repository:
    ```bash
    git clone https://github.com/Frostbite22/TuniSci.git
@@ -74,7 +173,7 @@ This project analyzes the research impact of Tunisian scholars by scraping data 
    sudo docker-compose logs -f
    ```
 
-4. Access to the app:
+4. Access the app:
    Open your browser and navigate to the network URL returned by the previous command.
 
 5. To stop the container:

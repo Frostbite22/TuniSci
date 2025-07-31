@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import time
 from rag import AzureAIChat, CustomAzureEmbeddings
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
@@ -20,16 +20,14 @@ if Path(".streamlit/secrets.toml").exists():
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 if 'selected_embedding_model' not in st.session_state:
-    st.session_state.selected_embedding_model = "Cohere-embed-v3-english"
+    st.session_state.selected_embedding_model = "sentence-transformers/paraphrase-MiniLM-L6-v2"
 if 'selected_chat_model' not in st.session_state:
-    st.session_state.selected_chat_model = "Cohere-command-r-plus-08-2024"
+    st.session_state.selected_chat_model = "gpt-4o"
 
 EMBEDDING_MODELS = {
-    "Cohere-embed-v3-english": "cohere_english_faiss_index_v2",
-    "Cohere-embed-v3-multilingual": "Cohere_embed_v3_multilingual_faiss_index",
-    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2": "paraphrase_multilingual_faiss_index",
-    "sentence-transformers/all-MiniLM-L6-v2": "allMiniLM_L6_v2_faiss_index",
-    "sentence-transformers/paraphrase-MiniLM-L6-v2": "Paraphrase_MiniLM_L6_v2_faiss_index"
+    "sentence-transformers/paraphrase-MiniLM-L6-v2": "Paraphrase_MiniLM_L6_v2_faiss_index",
+    "Cohere-embed-v3-english": "Cohere_embed_v3_english_faiss_index",
+    "sentence-transformers/all-MiniLM-L6-v2": "all_MiniLM_L6_v2_faiss_index"
 }
 
 # Chat models for dynamic switching
@@ -46,40 +44,69 @@ CHAT_MODELS = [
 def load_rag_components(embedding_model_name):
     try:
         index_folder = EMBEDDING_MODELS[embedding_model_name]
+        
+        # Check if the index folder exists
+        if not os.path.exists(index_folder):
+            st.error(f"❌ Vector index folder '{index_folder}' not found. Please create the vector store first.")
+            return None
+        
+        # Load the appropriate embedding model
         if "Cohere" in embedding_model_name:
             embedding_model = CustomAzureEmbeddings(embedding_model_name)
+        elif "sentence-transformers" in embedding_model_name:
+            from rag import SentenceTransformerWrapper
+            embedding_model = SentenceTransformerWrapper(model=embedding_model_name)
         else:
-            from langchain.embeddings import OpenAIEmbeddings
+            from langchain_openai import OpenAIEmbeddings
             embedding_model = OpenAIEmbeddings(model=embedding_model_name)
 
-        vectorstore = FAISS.load_local(
-            index_folder,
-            embeddings=embedding_model,
-            allow_dangerous_deserialization=True
-        )
-        retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+        # Load the vector store
+        with st.spinner("Loading vector store..."):
+            vectorstore = FAISS.load_local(
+                index_folder,
+                embeddings=embedding_model,
+                allow_dangerous_deserialization=True
+            )
+            retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+        
+        st.success(f"✅ Successfully loaded {embedding_model_name}")
         return retriever
+        
     except Exception as e:
-        st.error(f"Failed to load {embedding_model_name}. Error: {e}")
+        st.error(f"❌ Failed to load {embedding_model_name}")
+        with st.expander("Error details"):
+            st.code(str(e))
         return None
 
 # Function to query the chat model with the selected model
 def query_chat_model(user_query, retriever, selected_chat_model):
     try:
-        chat_model = AzureAIChat(chat_model=selected_chat_model)
-        qa_chain = RetrievalQA.from_chain_type(llm=chat_model(), retriever=retriever)
-        response = qa_chain.invoke(user_query)
-        return response["result"], selected_chat_model
+        # Add a loading indicator
+        with st.spinner(f"Thinking with {selected_chat_model}..."):
+            chat_model = AzureAIChat(chat_model=selected_chat_model)
+            qa_chain = RetrievalQA.from_chain_type(llm=chat_model(), retriever=retriever)
+            response = qa_chain.invoke({"query": user_query})
+            return response["result"], selected_chat_model
     except Exception as e:
         error_message = str(e).lower()
+        st.error(f"**Error with {selected_chat_model}:**")
+        
         if "rate limit" in error_message:
-            st.warning(f"Model {selected_chat_model} hit the rate limit.")
-        elif "unauthorized" in error_message:
-            st.warning(f"Model {selected_chat_model} returned an authorization error.")
+            st.warning(f"⏰ Model {selected_chat_model} hit the rate limit. Try again in a moment or select a different model.")
+        elif "unauthorized" in error_message or "401" in error_message:
+            st.error(f"🔐 Authentication failed for {selected_chat_model}. Please check your GITHUB_TOKEN in the .env file.")
+        elif "403" in error_message or "forbidden" in error_message:
+            st.error(f"🚫 Access forbidden for {selected_chat_model}. The token may not have access to this model.")
         elif "timeout" in error_message:
-            st.warning(f"Model {selected_chat_model} timed out.")
+            st.warning(f"⏱️ Model {selected_chat_model} timed out. Please try again.")
+        elif "404" in error_message or "not found" in error_message:
+            st.error(f"❓ Model {selected_chat_model} not found. The model might not be available.")
+        elif "api version" in error_message:
+            st.error(f"🔧 API version error for {selected_chat_model}. The API version might be outdated.")
         else:
-            st.error(f"Unexpected error with {selected_chat_model}: {e}")
+            st.error(f"💥 Unexpected error: {str(e)}")
+            with st.expander("Full error details"):
+                st.code(str(e))
         return None, None
 
 # Function to process the message
@@ -87,7 +114,15 @@ def process_message(user_query, retriever, selected_chat_model):
     if user_query and retriever:
         response, model_used = query_chat_model(user_query, retriever, selected_chat_model)
         if response:
-            st.session_state.chat_history.insert(0, {"user": user_query, "bot": response})
+            # Add to chat history with timestamp
+            import datetime
+            timestamp = datetime.datetime.now().strftime("%H:%M")
+            st.session_state.chat_history.insert(0, {
+                "user": user_query, 
+                "bot": response, 
+                "model": model_used,
+                "timestamp": timestamp
+            })
             return True
         else:
             st.error("Failed to get response. Please try again or select a different model.")
@@ -133,7 +168,28 @@ def main():
         st.dataframe(df.head(1000))
 
     with tab2:
-        st.header("Chat")
+        st.header("Chat with TuniSci")
+        
+        # Add helpful information
+        with st.expander("ℹ️ How to use", expanded=False):
+            st.markdown("""
+            **Ask questions about Tunisian researchers and academics:**
+            - "Who are the top researchers in computer science?"
+            - "Tell me about professors at University of Tunis"
+            - "Who has the highest h-index in engineering?"
+            - "Find researchers working on artificial intelligence"
+            
+            **Available Models:**
+            - **GPT-4o**: OpenAI's latest model (fast, general-purpose)
+            - **GPT-4o-mini**: Lighter version of GPT-4o (faster responses)
+            - **Cohere Command R+**: Strong for reasoning and analysis
+            - **Cohere Command R**: Good balance of speed and quality
+            """)
+        
+        # Check for environment setup
+        if not os.getenv("GITHUB_TOKEN"):
+            st.error("🔐 **Setup Required:** Please add your GITHUB_TOKEN to the .env file to use the chat functionality.")
+            st.stop()
         
         # Model selection dropdowns in side-by-side columns
         col1, col2 = st.columns(2)
@@ -186,15 +242,26 @@ def main():
 
         # Display chat history
         if st.session_state.chat_history:
-            st.subheader("Chat History")
-            for chat in st.session_state.chat_history:
-                st.markdown(f"**You:** {chat['user']}")
-                st.markdown(f"**Bot:** {chat['bot']}")
-                st.markdown("---")
+            st.subheader("💬 Chat History")
+            for i, chat in enumerate(st.session_state.chat_history):
+                # User message
+                st.markdown(f"**🧑 You ({chat.get('timestamp', '')}):**")
+                st.markdown(f"> {chat['user']}")
+                
+                # Bot response
+                model_info = f" *({chat.get('model', 'Unknown model')})*" if 'model' in chat else ""
+                st.markdown(f"**🤖 TuniSci{model_info}:**")
+                st.markdown(chat['bot'])
+                
+                if i < len(st.session_state.chat_history) - 1:
+                    st.markdown("---")
 
             # Clear chat history button
-            if st.button("Clear Chat History"):
-                st.session_state.chat_history = []
+            col1, col2, col3 = st.columns([1, 1, 1])
+            with col2:
+                if st.button("🗑️ Clear Chat History", use_container_width=True):
+                    st.session_state.chat_history = []
+                    st.rerun()
 
 if __name__ == "__main__":
     main()

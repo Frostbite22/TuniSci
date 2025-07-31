@@ -11,6 +11,7 @@ class ChatModel(enum.Enum):
     COHERE_COMMAND_R_PLUS_08_2024 = "Cohere-command-r-plus-08-2024"
     COHERE_COMMAND_R_08_2024 = "Cohere-command-r-08-2024"
     COHERE_COMMAND_R_PLUS = "Cohere-command-r-plus"
+    LLAMA_4_MAVERICK = "meta/Llama-4-Maverick-17B-128E-Instruct-FP8"
 
 
 

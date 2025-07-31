@@ -1,0 +1,33 @@
+[project]
+name = "tunisci"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Frostbite22",email = "landoulsiferes@outlook.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "langchain-community (>=0.3.27,<0.4.0)",
+    "streamlit (>=1.47.1,<2.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "openai (>=1.98.0,<2.0.0)",
+    "langchain-core (>=0.3.72,<0.4.0)",
+    "langchain-openai (>=0.3.28,<0.4.0)",
+    "jq (>=1.10.0,<2.0.0)",
+    "azure-ai-inference (>=1.0.0b9,<2.0.0)",
+    "langchain-azure-ai (>=0.1.4,<0.2.0)",
+    "cohere (>=5.0.0,<6.0.0)",
+    "ipython (>=9.4.0,<10.0.0)",
+    "faiss-cpu (>=1.11.0.post1,<2.0.0)",
+    "sentence-transformers (>=5.0.0,<6.0.0)",
+    "parsel (>=1.10.0,<2.0.0)",
+    "scholarly (>=1.7.11,<2.0.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "tiktoken (>=0.9.0,<0.10.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

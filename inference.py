@@ -1,7 +1,7 @@
 ### Intference using the RAG model
 # get the embedding model
 from rag import AzureAIChat, CustomAzureEmbeddings, SentenceTransformerWrapper
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_openai import OpenAIEmbeddings
 

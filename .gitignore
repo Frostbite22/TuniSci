@@ -7,3 +7,5 @@ faiss_cohere_index
 faiss_index
 .env
 .streamlit/secrets.toml
+.venv
+__pycache__
