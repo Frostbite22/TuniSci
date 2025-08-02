@@ -20,7 +20,7 @@ if Path(".streamlit/secrets.toml").exists():
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 if 'selected_embedding_model' not in st.session_state:
-    st.session_state.selected_embedding_model = "sentence-transformers/paraphrase-MiniLM-L6-v2"
+    st.session_state.selected_embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
 if 'selected_chat_model' not in st.session_state:
     st.session_state.selected_chat_model = "gpt-4o"
 
